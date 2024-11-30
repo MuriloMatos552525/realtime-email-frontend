@@ -1,7 +1,9 @@
+// pages/login.js
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useRouter } from 'next/router';
+import { loginUser } from '../utils/auth';
+import Link from 'next/link';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -12,17 +14,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const params = new URLSearchParams();
-      params.append('username', username);
-      params.append('password', password);
-      params.append('grant_type', 'password'); // Adicionado o grant_type
-
-      const response = await axios.post('http://localhost:8000/token', params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // Definido o Content-Type
-        },
-      });
-      login(username, response.data.access_token);
+      const data = await loginUser(username, password);
+      login(username, data.access_token);
       router.push('/');
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -31,28 +24,31 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
-      <h1>Entrar</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nome de usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        /><br/>
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br/>
-        <button type="submit">Entrar</button>
-      </form>
-      <p>
-        Não tem uma conta? <a href="/register">Registrar</a>
-      </p>
+    <div className="login-container">
+      <div className="login-card">
+        <h1>Bem-vindo de Volta</h1>
+        <p>Faça login para continuar</p>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Nome de usuário"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Entrar</button>
+        </form>
+        <p className="register-text">
+          Não tem uma conta? <Link href="/register">Registrar</Link>
+        </p>
+      </div>
     </div>
   );
 }

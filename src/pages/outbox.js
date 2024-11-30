@@ -1,6 +1,6 @@
 // pages/outbox.js
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout';
 import { AuthContext } from '../context/AuthContext';
@@ -12,12 +12,12 @@ export default function Outbox() {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/messages/outbox/', {
+      const response = await api.get('/messages/outbox/', {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setMessages(response.data);
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao buscar mensagens enviadas:', error);
     }
   };
 
@@ -31,7 +31,11 @@ export default function Outbox() {
     <ProtectedRoute>
       <Layout>
         <h1>Mensagens Enviadas</h1>
-        <MessageList messages={messages} />
+        {messages.length === 0 ? (
+          <p>Você não tem mensagens enviadas.</p>
+        ) : (
+          <MessageList messages={messages} isOutbox />
+        )}
       </Layout>
     </ProtectedRoute>
   );

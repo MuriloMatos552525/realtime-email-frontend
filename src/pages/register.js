@@ -1,7 +1,8 @@
+// pages/register.js
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { useRouter } from 'next/router';
+import { registerUser } from '../utils/auth';
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -12,36 +13,17 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Requisição para criar um novo usuário
-      await axios.post('http://localhost:8000/users/', { username, password });
-
-      // Preparação dos parâmetros para a requisição de login
-      const params = new URLSearchParams();
-      params.append('username', username);
-      params.append('password', password);
-      params.append('grant_type', 'password'); // Adicionado o grant_type
-
-      // Requisição para obter o token de acesso
-      const response = await axios.post('http://localhost:8000/token', params, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // Definido o Content-Type
-        },
-      });
-
-      // Chamada da função login do contexto de autenticação
-      login(username, response.data.access_token);
+      const data = await registerUser(username, password);
+      login(username, data.access_token);
       router.push('/');
     } catch (error) {
       if (error.response) {
-        // O servidor respondeu com um status diferente de 2xx
         console.error('Erro na resposta do servidor:', error.response.data);
         alert(error.response.data.detail || 'Erro ao registrar usuário');
       } else if (error.request) {
-        // A requisição foi feita, mas nenhuma resposta foi recebida
         console.error('Nenhuma resposta recebida:', error.request);
         alert('Não foi possível conectar ao servidor. Por favor, tente novamente mais tarde.');
       } else {
-        // Algo aconteceu ao configurar a requisição
         console.error('Erro ao configurar a requisição:', error.message);
         alert('Ocorreu um erro inesperado. Por favor, tente novamente.');
       }

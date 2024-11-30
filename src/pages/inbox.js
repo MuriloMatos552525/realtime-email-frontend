@@ -1,6 +1,7 @@
 // pages/inbox.js
 import { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
+import { WS_URL } from '../utils/config';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout';
 import { AuthContext } from '../context/AuthContext';
@@ -12,19 +13,19 @@ export default function Inbox() {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/messages/inbox/', {
+      const response = await api.get('/messages/inbox/', {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       setMessages(response.data);
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao buscar mensagens:', error);
     }
   };
 
-  const handleMessageUpdate = (messageId) => {
+  const handleMessageUpdate = (messageId, updatedFields) => {
     setMessages((prevMessages) =>
       prevMessages.map((msg) =>
-        msg.id === messageId ? { ...msg, is_read: true } : msg
+        msg.id === messageId ? { ...msg, ...updatedFields } : msg
       )
     );
   };
@@ -34,7 +35,7 @@ export default function Inbox() {
 
     fetchMessages();
 
-    const ws = new WebSocket(`ws://localhost:8000/ws/?token=${user.token}`);
+    const ws = new WebSocket(`${WS_URL}/ws/?token=${user.token}`);
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -57,7 +58,11 @@ export default function Inbox() {
     <ProtectedRoute>
       <Layout>
         <h1>Caixa de Entrada</h1>
-        <MessageList messages={messages} onMessageUpdate={handleMessageUpdate} />
+        {messages.length === 0 ? (
+          <p>Você não tem mensagens na sua caixa de entrada.</p>
+        ) : (
+          <MessageList messages={messages} onMessageUpdate={handleMessageUpdate} />
+        )}
       </Layout>
     </ProtectedRoute>
   );

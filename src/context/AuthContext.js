@@ -1,5 +1,6 @@
+// context/AuthContext.js
 import { createContext, useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode'; // Importação corrigida
+import jwt_decode from 'jwt-decode'; // Importação corrigida
 import { useRouter } from 'next/router';
 
 export const AuthContext = createContext();
@@ -9,18 +10,20 @@ export function AuthProvider({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setUser({ username: decoded.sub, token });
-      } catch (error) {
-        console.error('Token inválido:', error);
-        localStorage.removeItem('token');
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decoded = jwt_decode(token); // Uso corrigido
+          setUser({ username: decoded.sub, token });
+        } catch (error) {
+          console.error('Token inválido:', error);
+          localStorage.removeItem('token');
+          setUser(null);
+        }
+      } else {
         setUser(null);
       }
-    } else {
-      setUser(null);
     }
   }, []);
 

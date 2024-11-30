@@ -1,7 +1,7 @@
 /* styles/globals.css */
 
 /* Importação de fontes do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 /* Reset básico */
 * {
@@ -10,21 +10,51 @@
   box-sizing: border-box;
 }
 
+/* Variáveis de cores */
+:root {
+  --primary-color: #0070f3;
+  --primary-color-hover: #005bb5;
+  --secondary-color: #f5f7fa;
+  --text-color: #333;
+  --text-color-light: #555;
+  --background-color: #ffffff;
+  --border-color: #e1e4e8;
+  --success-color: #28a745;
+  --success-color-hover: #218838;
+  --error-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+}
+
 /* Estilos globais */
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
+/* Links */
 a {
   text-decoration: none;
   color: inherit;
 }
 
+a:hover {
+  color: var(--primary-color);
+}
+
+/* Botões */
 button {
   cursor: pointer;
   font-family: 'Roboto', sans-serif;
+  border: none;
+  background: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:focus {
+  outline: none;
 }
 
 /* Estilos para o layout */
@@ -34,150 +64,368 @@ button {
   padding: 20px;
 }
 
+/* Navegação */
 nav {
-  background-color: #fff;
+  background-color: var(--background-color);
   padding: 15px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 nav a {
   margin-right: 20px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
+  transition: color 0.3s;
 }
 
 nav a:hover {
-  color: #0070f3;
+  color: var(--primary-color);
 }
 
 nav button {
   margin-left: auto;
   padding: 8px 16px;
-  background-color: #0070f3;
-  border: none;
+  background-color: var(--primary-color);
   border-radius: 4px;
   color: #fff;
+  transition: background-color 0.3s;
 }
 
 nav button:hover {
-  background-color: #005bb5;
+  background-color: var(--primary-color-hover);
 }
 
+/* Conteúdo Principal */
 main {
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--background-color);
   margin-top: 20px;
   border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Estilos para formulários */
+/* Títulos e Textos */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+p {
+  color: var(--text-color-light);
+  margin-bottom: 15px;
+}
+
+/* Formulários */
 form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 600px;
   margin-top: 20px;
 }
 
 form input,
 form select,
 form textarea {
-  padding: 10px;
+  padding: 12px 15px;
   margin-bottom: 15px;
-  border: 1px solid #ccd0d5;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 16px;
+  background-color: #fafafa;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
 form input:focus,
 form select:focus,
 form textarea:focus {
-  border-color: #0070f3;
+  border-color: var(--primary-color);
   outline: none;
+  background-color: #fff;
 }
 
 form button {
   padding: 12px 20px;
-  background-color: #0070f3;
-  border: none;
+  background-color: var(--primary-color);
   border-radius: 4px;
   color: #fff;
   font-size: 16px;
+  font-weight: 500;
+  align-self: flex-start;
+  transition: background-color 0.3s;
 }
 
 form button:hover {
-  background-color: #005bb5;
+  background-color: var(--primary-color-hover);
 }
 
-/* Estilos para listas de mensagens */
+/* Página de Login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--secondary-color);
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.login-card {
+  background-color: var(--background-color);
+  padding: 40px 30px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-card h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: var(--text-color);
+}
+
+.login-card p {
+  margin-bottom: 30px;
+  color: var(--text-color-light);
+}
+
+.login-card form input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.login-card form button {
+  width: 100%;
+}
+
+.login-card a {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.login-card a:hover {
+  text-decoration: underline;
+}
+
+.register-text {
+  margin-top: 20px;
+  color: var(--text-color-light);
+}
+
+/* Lista de Mensagens */
 ul.message-list {
   list-style: none;
   margin-top: 20px;
 }
 
 ul.message-list li {
-  background-color: #fff;
-  padding: 15px;
-  border: 1px solid #e1e4e8;
+  background-color: var(--background-color);
+  padding: 20px;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   position: relative;
+  transition: box-shadow 0.3s;
+}
+
+ul.message-list li:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 ul.message-list li.unread {
-  background-color: #f0f8ff;
+  background-color: #eef6ff;
 }
 
 ul.message-list li h2 {
-  font-size: 18px;
-  margin-bottom: 5px;
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--text-color);
 }
 
 ul.message-list li p {
   font-size: 16px;
-  color: #555;
+  color: var(--text-color-light);
+  margin-bottom: 10px;
 }
 
-ul.message-list li button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  padding: 6px 12px;
-  background-color: #28a745;
-  border: none;
+ul.message-list li .message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul.message-list li .message-status {
+  font-size: 24px;
+  color: var(--primary-color);
+}
+
+ul.message-list li .message-timestamp {
+  font-size: 14px;
+  color: var(--text-color-light);
+  margin-top: 10px;
+}
+
+ul.message-list li .message-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+ul.message-list li .message-actions button {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
   border-radius: 4px;
   color: #fff;
+  transition: background-color 0.3s;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-ul.message-list li button:hover {
-  background-color: #218838;
+ul.message-list li .message-actions button:hover {
+  background-color: var(--primary-color-hover);
 }
 
-/* Estilos para mensagens de alerta */
-.alert {
-  padding: 15px;
-  background-color: #ffdddd;
-  border-left: 6px solid #f44336;
+ul.message-list li .reply-form {
+  margin-top: 15px;
+}
+
+ul.message-list li .reply-form textarea {
+  width: 100%;
+  height: 100px;
+  resize: vertical;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fafafa;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+ul.message-list li .reply-form textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  background-color: #fff;
+}
+
+ul.message-list li .reply-form button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: var(--success-color);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  border: none;
+}
+
+ul.message-list li .reply-form button:hover {
+  background-color: var(--success-color-hover);
+}
+
+ul.message-list li .reply-form button:last-child {
+  background-color: var(--error-color);
+  margin-left: 10px;
+}
+
+ul.message-list li .reply-form button:last-child:hover {
+  background-color: #c82333;
+}
+
+/* Página Enviar Mensagem */
+.send-message-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+}
+
+.send-message-card {
+  background-color: var(--background-color);
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.send-message-card h1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.send-message-form select,
+.send-message-form input,
+.send-message-form textarea {
+  width: 100%;
   margin-bottom: 20px;
 }
 
+.send-message-form select {
+  height: 50px;
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" width="14" height="8"%3E%3Cpath fill="%23333" d="M7 8L0 0h14L7 8z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 14px 8px;
+  padding-right: 40px;
+}
+
+.send-message-form select::-ms-expand {
+  display: none;
+}
+
+.send-message-form button {
+  width: 100%;
+}
+
+/* Mensagens de Alerta */
+.alert {
+  padding: 15px;
+  border-left: 6px solid;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
 .alert.success {
-  background-color: #ddffdd;
-  border-left-color: #4CAF50;
+  background-color: #d4edda;
+  border-left-color: #28a745;
+  color: #155724;
+}
+
+.alert.error {
+  background-color: #f8d7da;
+  border-left-color: #dc3545;
+  color: #721c24;
 }
 
 .alert.info {
-  background-color: #e7f3fe;
-  border-left-color: #2196F3;
+  background-color: #d1ecf1;
+  border-left-color: #17a2b8;
+  color: #0c5460;
 }
 
 .alert.warning {
-  background-color: #ffffcc;
-  border-left-color: #ffeb3b;
+  background-color: #fff3cd;
+  border-left-color: #ffc107;
+  color: #856404;
 }
 
-/* Estilos responsivos */
+/* Contador de Mensagens Não Lidas */
+.unread-count {
+  margin-left: 20px;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* Estilos Responsivos */
 @media (max-width: 768px) {
   nav {
     flex-direction: column;
@@ -185,10 +433,65 @@ ul.message-list li button:hover {
   }
 
   nav a {
+    margin-right: 0;
     margin-bottom: 10px;
   }
 
   nav button {
     margin-left: 0;
+    margin-top: 10px;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .message-item {
+    padding: 15px;
+  }
+
+  .message-header h2 {
+    font-size: 18px;
+  }
+
+  .message-item p {
+    font-size: 14px;
+  }
+
+  .login-card {
+    padding: 30px 20px;
+  }
+
+  .login-card h1 {
+    font-size: 24px;
+  }
+
+  .login-card p {
+    font-size: 16px;
+  }
+
+  /* Estilos para Send Message */
+  .send-message-container {
+    padding: 20px 10px;
+  }
+
+  .send-message-card {
+    padding: 20px 30px;
+  }
+
+  .send-message-card h1 {
+    font-size: 22px;
+  }
+
+  .send-message-form button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .send-message-form select,
+  .send-message-form input,
+  .send-message-form textarea {
+    font-size: 14px;
+    padding: 10px 12px;
   }
 }
